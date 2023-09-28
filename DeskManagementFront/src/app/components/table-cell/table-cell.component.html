@@ -1,0 +1,54 @@
+<!-- <div [ngStyle]="getCellStyle(reservation.date, reservation.deskId)" (click)="handleCellClick(reservation.date, reservation.deskId)"></div> -->
+<!-- <pre style="color: white;">{{ this.dateDeskInfo | json }}</pre> -->
+
+<div *ngIf="!this.assignedReservation">
+    <div [ngStyle]="this.dateDeskInfo.cellStyle" (click)="handleCellClick()" *ngIf="!this.assignedReservation && this.dateDeskInfo.reservation && this.dateDeskInfo.reservation.type == null" class="border border-dark rounded text-white text-center d-flex justify-content-center align-items-center disabled" style="height: 42px">
+        <div *ngIf="!this.assignedReservation && this.dateDeskInfo.reservation && this.dateDeskInfo.reservation.type == null && !this.myReservation" class="d-flex justify-content-center align-items-center mx-auto">
+            <p class="text-center mx-auto my-0 p-0">
+                {{ this.dateDeskInfo.resUsername }}
+            </p>
+            <svg *ngIf="this.isUserAdmin" xmlns="http://www.w3.org/2000/svg" (click)="handleXClick()" width="24" height="24" fill="currentColor" class="bi bi-x mx-2" viewBox="0 0 16 16" style="cursor : pointer;">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>  
+        </div>    
+        <div class="d-flex justify-content-center align-items-center mx-auto" *ngIf="!this.assignedReservation && this.dateDeskInfo.reservation && this.dateDeskInfo.reservation.type == null && this.myReservation">
+            <a [href]="this.link" class="text-white mb-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-calendar-event mx-2" viewBox="0 0 16 16" style="cursor : pointer;">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                </svg>
+            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" (click)="handleXClick()" width="24" height="24" fill="currentColor" class="bi bi-x mx-2" viewBox="0 0 16 16" style="cursor : pointer;">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>        
+        </div>
+    </div>
+    <button [ngStyle]="this.dateDeskInfo.cellStyle" *ngIf="!this.assignedReservation && (this.dateDeskInfo.reservation?.type === 'revoke' || !this.dateDeskInfo.reservation) " class="btn btn-outline-info w-100 p-2" (click)="handleCellClick()" style="white-space: nowrap;">Reserve me!</button>
+</div>
+
+<div *ngIf="this.assignedReservation" class="d-flex justify-content-center align-items-center">
+    <p *ngIf="this.assignedReservation && !this.myAssignedReservation" class="text-info text-center">{{this.assignedUsername}} in office</p>
+    <svg *ngIf="this.assignedReservation && this.myAssignedReservation" xmlns="http://www.w3.org/2000/svg" (click)="handleFreeClick()" width="32" height="32" fill="currentColor" class="bi bi-x mx-2 text-danger" viewBox="0 0 16 16" style="cursor : pointer;">
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+    </svg>  
+</div>
+
+<div *ngIf="showForm" class="overlay" (click)="handleOverlayClick($event)">
+    <div class="form-container">
+        <h2 class="my-2 text-black text-center">Cancel reservation</h2>
+        <form (submit)="cancelReservation()" (click)="handleFormClick($event)">
+            <p *ngIf="this.myReservation" class="text-black">Are you sure you want to cancel your reservation?</p>
+            <p *ngIf="this.isUserAdmin && !this.myReservation" class="text-black">Are you sure you want to cancel {{ this.dateDeskInfo.resUsername }}'s reservation?</p>
+            <button type="submit" class="w-100 my-2 btn btn-outline-success">Cancel Reservation</button>
+        </form>
+    </div>
+</div>
+<div *ngIf="showReserveForm" class="overlay" (click)="handleOverlayClick($event)">
+    <div class="form-container">
+        <h2 class="my-2 text-black text-center">Create reservation</h2>
+        <form (submit)="createReservation()" (click)="handleFormClick($event)">
+            <p class="text-black">Are you sure you want to reserve {{ this.deskName }} for {{ this.dateDeskInfo.date }}?</p>
+            <button type="submit" class="w-100 my-2 btn btn-outline-success">Create Reservation</button>
+        </form>
+    </div>
+</div>

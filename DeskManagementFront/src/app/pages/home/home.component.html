@@ -1,0 +1,54 @@
+<div *ngIf="loggedInUser" style="height: 100%; width: 100%; position: absolute; top: 0; display: flex; flex-direction: column;">
+    <app-toasts></app-toasts>
+    
+    <h2 style="margin-top: 15px;" class="text-white text-center">
+        On this page, you can find information about your reservations.
+    </h2>
+    <div style="justify-content: center; align-items: center; display: flex; flex-direction: column; position: relative; left: 50%; transform: translateX(-50%);" class="interface">
+        <p class="text-white mt-2">Number of weeks to show in the table below</p>
+        <select [(ngModel)]="this.numWeeks" (ngModelChange)="handleSelectClick()" class="form-select mb-2" aria-label="Default select example" style="position: static; ">
+            <option value="1">One week</option>
+            <option value="2">Two weeks</option>
+            <option value="3">Three weeks</option>
+            <option value="4">Four weeks</option>
+        </select>
+        <div>
+            <button (click)="handleFirstFloor()" class="btn btn-outline-info mx-1">First floor</button>
+            <button (click)="handleSecondFloor()" class="btn btn-outline-info mx-1">Second floor</button>
+        </div>
+        <div class="my-2">
+            <button (click)="handleAllDesksClick()" class="btn btn-outline-info mx-1">All Desks</button>
+            <button (click)="handleFilterDesksClick()" class="btn btn-outline-info mx-1">Not Assigned</button>
+        </div>    
+    </div>
+    <h3 class="text-white mt-2 text-xl px-4 text-center">{{floor === 0 ? "First floor" : "Second floor"}} {{filtered? "Not Assigned" : "All Desks"}}</h3>
+    <section style="flex: 1; height: 100%; width: 100%" class="example-container mat-elevation-z8 w-100" tabindex="0" *ngIf="this.desks.length">
+        <table mat-table [dataSource]="tableRows" style="height: 100%;">
+            <ng-container matColumnDef="Date" sticky style="height: 100%;">
+                <th mat-header-cell *matHeaderCellDef class="text-white" style="background: #3B71CA;" >Date</th>
+                <td mat-cell *matCellDef="let element" class="text-white" style="background: #144372;" >{{element.date}}</td>
+            </ng-container>
+            <ng-container
+                [matColumnDef]="desk.name"
+                *ngFor="let desk of desks; index as i"
+                style="height: 100%;"
+            >
+                <th mat-header-cell *matHeaderCellDef style="white-space: nowrap; background: #144372;" class="text-white text-center">{{desk.name}}</th>
+                <td mat-cell *matCellDef="let element" class="bg-dark">
+                    <app-table-cell [dateDeskInfo]="this.getDateDeskInfo(desk, element.date)"></app-table-cell>  
+                </td>
+            </ng-container>              
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="border:white"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>                    
+        </table>
+
+    </section>
+    <p *ngIf="desks.length == 0" class="text-white text-center my-2">
+        Without desks in office, you can't make reservations!</p>   
+</div>
+
+<div *ngIf="!loggedInUser">
+    <h2 class="d-flex justify-content-center align-items-center text-white text-center mt-5">
+        Please <a routerLink="./login" class="mx-2">log in</a> to view information about your reservations.
+    </h2>
+</div>

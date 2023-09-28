@@ -1,0 +1,26 @@
+.fit-content {
+    width: fit-content;
+} 
+.example-container {
+    background: #59abfd;
+    max-width: 100%;
+    overflow: auto;
+  }
+  
+  .mat-mdc-table-sticky-border-elem-right {
+    border-left: 1px solid #c7bdce;
+  }
+  
+  .mat-mdc-table-sticky-border-elem-left {
+    border-right: 1px solid #c7bdce;
+  }
+
+  .interface {
+    width: 90%; /* Podrazumevana širina za male ekrane */
+  
+    @media (min-width: 768px) {
+      /* Širina 350px za velike ekrane */
+      width: 400px;
+    }
+  } 
+  

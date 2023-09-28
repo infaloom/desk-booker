@@ -1,0 +1,14 @@
+<div *ngIf="showForm" class="overlay" (click)="handleOverlayClick($event)">
+    <div class="form-container">
+      <h2 class="my-2 text-center">Assign Desk!</h2>
+      <form (submit)="assignDesk()" (click)="handleFormClick($event)">
+        <label for="deskName" class="mx-1 my-2">Desk Name:</label>
+        <input class="form-control my-2" disabled type="text" id="deskName" [(ngModel)]="deskName" name="deskName" placeholder={{this.deskName}}>
+        <select [(ngModel)]="this.userId" [ngModelOptions]="{standalone: true}" class="form-select mb-2" aria-label="Default select example" style="position: static; ">
+          <option value="Not assigned">No one</option>  
+          <option *ngFor="let employee of employees; let i = index" value={{employees[i].id}}>{{employees[i].name}}</option>
+        </select>
+        <button type="submit" class="w-100 my-2 btn btn-outline-success">Change Desk</button>
+      </form>
+    </div>
+</div>

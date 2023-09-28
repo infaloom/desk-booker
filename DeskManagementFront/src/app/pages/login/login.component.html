@@ -1,0 +1,17 @@
+<h1 class="d-flex justify-content-center align-items-center mt-5 text-white">Login</h1>
+<form (ngSubmit)="login()" class="d-flex justify-content-center align-items-center flex-column my-2">
+  <div class="p-2 my-2">
+    <label for="username" class="mx-1 text-white">Username</label>
+    <input type="text" id="username" name="username" [(ngModel)]="username" required class="form-control">
+  </div>
+  <div class="p-2 my-2">
+    <label for="password" class="mx-1 text-white">Password</label>
+    <input type="password" id="password" name="password" [(ngModel)]="password" required class="form-control">
+  </div>
+  <a class="dropdown-item text-info text-center mb-2" routerLink="/register">Don't have account yet? Register now!</a>
+  <a class="dropdown-item text-info text-center" routerLink="/forgot">Forgot your password?</a>
+  <p *ngIf="invalidRegistration" class="text-danger my-2">{{ this.message }}</p>
+  <div class="p-2 my-2">
+    <button type="submit" class="px-5 btn btn-outline-success">Login</button>
+  </div>
+</form>

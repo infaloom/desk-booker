@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/489bfaa3-4c1c-4cb5-90d3-738ff5c0f683/resourceGroups/DeskManagement02H/providers/Microsoft.Web/sites/DeskManagement02H",
+    "appService.deploySubpath": "."
+}

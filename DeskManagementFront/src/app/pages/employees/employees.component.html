@@ -1,0 +1,14 @@
+<div *ngIf="loggedInUserRole == 'Admin'" class="d-flex flex-column mt-5 justify-content-center align-items-center w-100">
+    <app-toasts></app-toasts>
+      <h2 class="text-white mx-2 mb-2">Employees</h2>
+      <p *ngIf="employees.length == 0">No employees registered in app yet!</p>
+      <ul *ngIf="employees.length > 0" class="d-flex flex-wrap pl-0 justify-content-center align-items-center m-0">
+          <li *ngFor="let employee of employees" class="mx-3">
+              <app-employee [employee]="employee"></app-employee>
+          </li>
+      </ul>
+  </div>
+  <div *ngIf="loggedInUserRole != 'Admin'">
+    <h2 class="text-white mx-2 mb-2">Only admins can access this page</h2>
+  </div>
+  

@@ -1,0 +1,31 @@
+<div *ngIf="loggedInUserRole == 'Admin' || loggedInUserRole == 'DeskAdmin'" class="d-flex flex-column mt-5 justify-content-center align-items-center w-100">
+  <app-toasts></app-toasts>
+    <h2 class="text-white mx-2 mb-2">Desks for reservations in office</h2>
+    <h3 class="text-white mt-4 text-xl px-4 text-center">Add new desk</h3>
+    <button class="btn btn-outline-success px-5 mt-2 mb-4" (click)="handleAddClick()">Add</button>
+    <p *ngIf="desks.length == 0">No desks in office yet!</p>
+    <ul *ngIf="desks.length > 0" class="d-flex flex-wrap pl-0 justify-content-center align-items-center m-0">
+        <li *ngFor="let desk of desks" class="mx-3">
+            <app-desk [desk]="desk"></app-desk>
+        </li>
+    </ul>
+    <div *ngIf="showForm" class="overlay" (click)="handleOverlayClick($event)">
+      <div class="form-container">
+        <h2 class="my-2 text-center">Create Desk!</h2>
+        <form (submit)="createDesk()" (click)="handleFormClick($event)">
+          <label for="deskName" class="mx-1 my-2">Desk Name:</label>
+          <input class="form-control my-2" type="text" id="deskName" [(ngModel)]="deskName" name="deskName" placeholder="desk">
+          <p *ngIf="this.nameValidation" class="text-danger">Desk name should be between 3 and 18 characters length</p>
+          <label for="deskFloor" class="mx-1 my-2">Desk Floor:</label>
+          <input class="form-control my-2" type="text" id="deskFloor" [(ngModel)]="deskFloor" name="deskFloor" placeholder="desk floor">
+          <p *ngIf="this.floorValidation" class="text-danger">Desk floor can only be 0 or 1</p>
+          <button type="submit" class="w-100 my-2 btn btn-outline-success">Create Desk</button>
+        </form>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="loggedInUserRole != 'Admin' && loggedInUserRole != 'DeskAdmin'">
+  <h2 class="text-white mx-2 mb-2">Only admins and desk admins can access this page</h2>
+</div>

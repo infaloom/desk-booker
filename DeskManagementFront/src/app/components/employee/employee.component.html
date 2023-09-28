@@ -1,0 +1,27 @@
+<div *ngIf="isShown" class="d-flex flex-column justify-content-center align-items-center my-2">
+    <app-toasts></app-toasts>
+    <p class="text-white my-0">{{employee.name}}</p>
+    <p *ngIf="employee.role === 'Admin' " class="text-white my-2">{{employee.role}}</p>
+    <div *ngIf="employee.role !== 'Admin' " class="form-check text-white">
+      <input *ngIf="this.employee.role === 'DeskAdmin'" class="form-check-input" (click)="handleToggleClick()" type="checkbox" value="" checked id="flexCheckDefault">
+      <input *ngIf="this.employee.role !== 'DeskAdmin'" class="form-check-input" (click)="handleToggleClick()" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Desk Admin
+      </label>
+    </div>
+    <img src="../../assets/icons/profile.png" alt="Slika" style="height: 125px;"/>
+    <div *ngIf="employee.role !== 'Admin' " class="d-flex justify-content-center align-items-center mt-2">
+        <img src="../../assets/icons/delete.png" alt="Slika" style="height: 35px; cursor: pointer;" 
+            class="mx-2" (click)="handleDeleteClick()"/>
+    </div>
+
+    <div *ngIf="showForm" class="overlay" (click)="handleOverlayClick($event)">
+      <div class="form-container">
+        <h2 class="my-2">Delete employee</h2>
+        <form (submit)="deleteEmployee()" (click)="handleFormClick($event)">
+          <p>Are you sure you want to delete {{employee.name}} ?</p>
+          <button type="submit" class="w-100 my-2 btn btn-outline-success">Delete Employee</button>
+        </form>
+      </div>
+    </div>
+  </div>

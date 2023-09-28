@@ -1,0 +1,12 @@
+<div *ngIf="!showSplashScreen" style="display:flex; flex-direction: column; height: 100%; width: 100%">
+    <app-navbar></app-navbar>
+
+    <div *ngIf="systemConfigured" style="flex: 1; position: relative;">
+        <router-outlet></router-outlet>
+    </div>
+    <div *ngIf="!systemConfigured" style="flex: 1; position: relative;">
+        <app-configuration></app-configuration>
+    </div>
+</div>
+
+<app-splash-screen *ngIf="showSplashScreen"></app-splash-screen>

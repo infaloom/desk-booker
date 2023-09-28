@@ -1,0 +1,26 @@
+<div *ngIf="isShown" class="d-flex flex-column justify-content-center align-items-center my-2">
+  <app-toasts></app-toasts>
+    <p class="text-white my-0">{{desk.name}}</p>
+    <p class="text-white my-2">{{desk.floor === 0 ? 'First floor' : 'Second floor'}}</p>
+    <p class="text-white mb-2">{{desk.userId !== null ? username : 'Not assigned'}}</p>
+    <img src="../../assets/icons/desk-icon.jpg" alt="Slika" style="height: 125px;"/>
+    <div class="d-flex justify-content-center align-items-center mt-2">
+        <img src="../../assets/icons/edit.png" alt="Slika" style="height: 35px; cursor: pointer;" 
+            class="mx-2" (click)="handleEditClick()"/>
+        <img src="../../assets/icons/delete.png" alt="Slika" style="height: 35px; cursor: pointer;" 
+            class="mx-2" (click)="handleDeleteClick()"/>
+        <img src="../../assets/icons/assign.png" alt="Slika" style="height: 35px; cursor: pointer;" 
+            class="mx-2" (click)="handleAssignClick()"/>    
+    </div>
+
+    <div *ngIf="showForm" class="overlay" (click)="handleOverlayClick($event)">
+      <div class="form-container">
+          <h2 class="my-2">Delete desk</h2>
+          <form (submit)="deleteDesk()" (click)="handleFormClick($event)">
+              <p>Are you sure you want to delete {{desk.name}} desk?</p>
+              <button type="submit" class="w-100 my-2 btn btn-outline-success">Delete desk</button>
+          </form>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,14 @@
+<div *ngIf="showForm" class="overlay" (click)="handleOverlayClick($event)">
+    <div class="form-container">
+      <h2 class="my-2 text-center">Edit Desk!</h2>
+      <form (submit)="editDesk()" (click)="handleFormClick($event)">
+        <label for="deskName" class="mx-1 my-2">Desk Name:</label>
+        <input class="form-control my-2" type="text" id="deskName" [(ngModel)]="deskName" name="deskName" placeholder={{this.deskName}}>
+        <p *ngIf="this.nameValidation" class="text-danger">Desk name should be between 3 and 18 characters length</p>
+        <label for="deskFloor" class="mx-1 my-2">Desk Floor:</label>
+        <input class="form-control my-2" type="text" id="deskFloor" [(ngModel)]="deskFloor" name="deskFloor" placeholder={{this.deskFloor}}>
+        <p *ngIf="this.floorValidation" class="text-danger">Desk floor can only be 0 or 1</p>
+        <button type="submit" class="w-100 my-2 btn btn-outline-success">Change Desk</button>
+      </form>
+    </div>
+</div>

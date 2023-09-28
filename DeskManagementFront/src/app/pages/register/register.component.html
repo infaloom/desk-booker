@@ -1,0 +1,37 @@
+<h2 class="d-flex justify-content-center align-items-center mt-5 text-white text-center">Registration</h2>
+    <form (submit)="submitForm()" class="d-flex align-items-center flex-column my-2 container">
+      <div class="p-2 my-2 align-items-center">
+        <label for="UserName" class="mx-1 text-white">
+          User Name
+        </label>
+        <input type="text" name="UserName" [(ngModel)]="UserName" required class="form-control">
+      </div>
+      
+      <div class="p-2 my-2 align-items-center">
+        <label for="Email" class="mx-1 text-white">
+          Email
+        </label>
+        <input type="email" name="Email" [(ngModel)]="Email" required class="form-control">
+      </div>
+      
+      <div class="p-2 my-2 align-items-center">
+      <label for="Password" class="mx-1 text-white">
+        Password
+      </label>
+      <input type="password" name="Password" [(ngModel)]="Password" required class="form-control">
+      </div>
+
+      <div class="p-2 my-2 align-items-center">
+        <label for="ConfirmPassword" class="mx-1 text-white">
+          Confirm Password
+        </label>
+        <input type="password" name="ConfirmPassword" [(ngModel)]="ConfirmPassword" required class="form-control">
+      </div>
+
+      <a class="dropdown-item text-info text-center mb-2" routerLink="/login">Already have account? Log in now!</a>
+
+      <div class="p-2 my-2 align-items-center">
+        <button type="submit" class="px-5 btn btn-outline-success">Register!</button>
+      </div>  
+      <p *ngIf="invalidRegistration" class="invalid-register text-danger">{{this.message}}</p>
+    </form>
