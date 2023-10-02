@@ -20,7 +20,7 @@ namespace DeskManagementApp.Controller
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
-        private readonly IEmailSender _emailSender = new EmailSender();
+        private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _cache;
 
@@ -30,14 +30,13 @@ namespace DeskManagementApp.Controller
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
-            IEmailSender emailSender,
             IMemoryCache cache)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            _emailSender = new EmailSender(configuration);
             _configuration = configuration;
             _cache = cache;
         }

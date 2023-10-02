@@ -8,19 +8,19 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent {
-  username: string = "";
+  email: string = "";
   message: string = "";
   usernameSent: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   forgot(){
-    if(!this.username.length){
+    if(!this.email.length){
       this.message = 'User name must not be empty'
       return;
     }
 
-    this.authService.forgotPassword(this.username).subscribe(result => {
+    this.authService.forgotPassword(this.email).subscribe(result => {
       this.usernameSent = true;
     });
   }

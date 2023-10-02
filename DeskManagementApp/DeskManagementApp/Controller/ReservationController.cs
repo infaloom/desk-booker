@@ -29,14 +29,14 @@ namespace reservationManagementApp.Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender = new EmailSender();
+        private readonly IEmailSender _emailSender;
         private readonly IHubContext<ReservationHub> _reservationHubContext;
 
-        public ReservationController(UserManager<IdentityUser> userManager, ApplicationDbContext context, IEmailSender emailSender, IHubContext<ReservationHub> reservationHubContext)
+        public ReservationController(UserManager<IdentityUser> userManager, IConfiguration configuration, ApplicationDbContext context, IHubContext<ReservationHub> reservationHubContext)
         {
             _userManager = userManager;
             _context = context;
-            _emailSender = emailSender;
+            _emailSender = new EmailSender(configuration);
             _reservationHubContext = reservationHubContext;
         }
 

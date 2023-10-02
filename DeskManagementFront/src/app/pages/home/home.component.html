@@ -48,7 +48,7 @@
 </div>
 
 <div *ngIf="!loggedInUser">
-    <h2 class="d-flex justify-content-center align-items-center text-white text-center mt-5">
-        Please <a routerLink="./login" class="mx-2">log in</a> to view information about your reservations.
+    <h2 class="d-flex justify-content-center align-items-center text-white text-center mt-5" routerLink="./login" style="text-decoration: underline; cursor: pointer">
+        Please log in to view information about your reservations.
     </h2>
 </div>

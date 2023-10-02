@@ -27,7 +27,7 @@ namespace DeskManagementApp.Controller
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
-        private readonly IEmailSender _emailSender = new EmailSender();
+        private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
         private readonly IHubContext<EmployeeHub> _employeeHubContext;
 
@@ -36,14 +36,13 @@ namespace DeskManagementApp.Controller
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
-            IEmailSender emailSender,
             IHubContext<EmployeeHub> employeeHubContext)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            _emailSender = new EmailSender(configuration);
             _configuration = configuration;
             _employeeHubContext = employeeHubContext;
         }
@@ -148,15 +147,14 @@ namespace DeskManagementApp.Controller
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(dto.UserName);
+                var user = await _userManager.FindByEmailAsync(dto.Email);
                 if (user != null)
                 {
                     var request = HttpContext.Request;
-                    var rootAddress = GetRootAddress(request);
+                    //var rootAddress = GetRootAddress(request);
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    string callbackUrl = $"{rootAddress}/reset?userId={user.Id}&token={code}";
-
+                    string callbackUrl = $"desks.infaloom.com/reset?userId={user.Id}&token={code}";
                     await _emailSender.SendEmailAsync(user.Email, "Reset your password",
                         $"Once you click <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>the link</a>, you'll be directed to a page where you can securely set a new password. ");
 
@@ -202,7 +200,7 @@ namespace DeskManagementApp.Controller
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(dto.UserName);
+                var user = await _userManager.FindByEmailAsync(dto.Email);
                 if (user == null)
                 {
                     return NotFound();
@@ -221,7 +219,7 @@ namespace DeskManagementApp.Controller
                     {
                         Subject = new ClaimsIdentity(new Claim[]
                         {
-                            new Claim(ClaimTypes.Name, dto.UserName),
+                            new Claim(ClaimTypes.Name, user.UserName),
                             new Claim(ClaimTypes.Role, roles.FirstOrDefault()),
                             new Claim(ClaimTypes.NameIdentifier, user.Id)
                         }),
@@ -332,7 +330,7 @@ namespace DeskManagementApp.Controller
     public class LoginRequestDTO
     {
         [Required]
-        public string UserName { get; set; }
+        public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -342,7 +340,7 @@ namespace DeskManagementApp.Controller
     public class ForgotPasswordRequestDTO
     {
         [Required]
-        public string UserName { get; set; }
+        public string Email { get; set; }
     }
 
     public class ResetPasswordRequestDTO

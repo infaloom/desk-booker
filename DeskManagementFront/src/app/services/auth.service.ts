@@ -36,8 +36,8 @@ export class AuthService {
     return localStorage.getItem(this.localStorageToken);
   }
 
-  login(UserName: string, Password: string): Observable<boolean> {
-    const body = { UserName, Password };
+  login(Email: string, Password: string): Observable<boolean> {
+    const body = { Email, Password };
   
     return this.http.post(this.backendUrl+'login', body, { responseType: 'json' }).pipe(
       map((response: any) => {
@@ -59,8 +59,8 @@ export class AuthService {
     );
   }
 
-  forgotPassword(username: string): Observable<boolean>{
-    return this.http.post(this.backendUrl+'forgot', {username}, { responseType: 'json' }).pipe(
+  forgotPassword(email: string): Observable<boolean>{
+    return this.http.post(this.backendUrl+'forgot', {email}, { responseType: 'json' }).pipe(
       map((response: any) => {
         if (response) {
           return true;

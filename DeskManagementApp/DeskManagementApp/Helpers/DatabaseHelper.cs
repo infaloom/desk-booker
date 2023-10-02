@@ -24,7 +24,7 @@ namespace DeskManagementApp.Helpers
         {
             var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
             var emailStore = GetEmailStore(serviceProvider);
-            var emailSender = new EmailSender();
+            var emailSender = new EmailSender(_configuration);
 
             var user = await userManager.FindByNameAsync("Admin");
 

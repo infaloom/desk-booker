@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username: string = "";
+  email: string = "";
   password: string = "";
   message: string= "";
   invalidRegistration: boolean = false;
@@ -17,7 +17,7 @@ export class LoginComponent {
 
   login() {
 
-    if(!this.username.length){
+    if(!this.email.length){
       this.message = 'User name must not be empty'
       this.invalidRegistration = true;
       return;
@@ -30,7 +30,7 @@ export class LoginComponent {
       return;
     }
 
-    this.authService.login(this.username, this.password).subscribe(isAuthenticated => {
+    this.authService.login(this.email, this.password).subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.router.navigateByUrl('/');
       } else {
